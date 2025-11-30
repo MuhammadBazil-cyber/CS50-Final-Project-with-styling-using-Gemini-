@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Financial Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base Styles for Consistency */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light grey background */
+            color: #1f2937;
+            padding: 20px;
+        }
+
+        /* --- Header and Navigation --- */
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .header-nav h1 {
+            font-size: 1.8rem;
+            color: #1e3a8a; /* Deep Financial Blue */
+            font-weight: 700;
+        }
+        
+        .header-nav a {
+            text-decoration: none;
+            color: #ef4444; /* Logout Red */
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border: 1px solid #ef4444;
+            border-radius: 6px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        
+        .header-nav a:hover {
+            background-color: #ef4444;
+            color: white;
+        }
+        
+        /* --- Main Dashboard Layout --- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- Input/Expense Sections --- */
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #111827;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f3f4f6;
+        }
+        
+        form ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        form li {
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: calc(50% - 5px); /* Half width for two inputs */
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 1rem;
+            margin-right: 5px;
+            transition: border-color 0.2s;
+        }
+        
+        /* --- Buttons --- */
+        button[type="submit"] {
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+            width: auto;
+        }
+
+        .ADD_INCOME, .ADD_EXPENSE {
+            background-color: #059669; /* Green for adding */
+            color: white;
+        }
+
+        .ADD_INCOME:hover, .ADD_EXPENSE:hover {
+            background-color: #047857;
+        }
+        
+        .CLEAR_BUFFER {
+            background-color: #fecaca; /* Light Red for clearing */
+            color: #b91c1c;
+            width: 100%;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .CLEAR_BUFFER:hover {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        /* --- Displayed Data (Income/Expenses List) --- */
+        .data-list {
+            margin-top: 15px;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 10px;
+        }
+
+        .data-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dotted #f3f4f6;
+            font-size: 0.95rem;
+        }
+        
+        .data-list strong {
+            display: block;
+            margin-top: 10px;
+            font-size: 1rem;
+            padding: 10px 0;
+            border-top: 2px solid #d1d5db;
+        }
+        
+        /* --- Summary Section --- */
+        .summary-card {
+            grid-column: 1 / -1; /* Spans the full width */
+            background-color: #1e3a8a; /* Deep Blue for Summary */
+            color: white;
+            padding: 2rem;
+            margin-top: 20px;
+        }
+        
+        .summary-card h2 {
+            color: white;
+            border-bottom-color: #3b82f6;
+        }
+        
+        .summary-card p {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-nav">
+        <h1>Financial Dashboard 💰</h1>
+        <a href="/logout">Logout</a>
+    </div>
+
+    <p style="margin-bottom: 20px;">Welcome back! You are successfully logged in.</p>
+
+    <div class="dashboard-grid">
+        
+        <div class="card">
+            <form action="/add_income" method="post">
+                <h2>Add Income</h2>
+                <ul>
+                    <li> 
+                        <input type="text" name="income_source" placeholder="Income source (e.g., Salary)" />
+                        <input type="number" name="amount" placeholder="Amount ($)" />
+                    </li>
+                    <li> 
+                        <button type="submit" class="ADD_INCOME">Record Income</button>
+                    </li>
+                    
+                    <ul class="data-list">
+                        <li><strong>Income Sources:</strong></li>
+                        {% for income in income_sources %}
+                        <li>
+                            <p>Source: **{{ income.source }}**</p>
+                            <p>Amount: **${{ income.s_amount }}**</p>
+                        </li>
+                        {% endfor %}
+                        <li><strong>Total Income: ${{ total_income }}</strong></li>
+                    </ul>
+                </ul>
+            </form>
+            
+            <form action="/clearincome_buffer" method="post">
+                <button type="submit" class="CLEAR_BUFFER">Clear All Income Entries</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <form action="/add_expense" method="post">
+                <h2>Add Expense</h2>
+                <ul>
+                    <li>
+                        <input type="text" name="expense_source" placeholder="Expense source (e.g., Rent)" />
+                        <input type="number" name="expense_amount" placeholder="Amount ($)" />
+                    </li>
+                    <li>
+                        <button type="submit" class="ADD_EXPENSE">Record Expense</button>
+                    </li>
+                    
+                    <ul class="data-list">
+                        <li><strong>Expense Sources:</strong></li>
+                        {% for expense in expense_sources %}    
+                        <li>
+                            <p>Source: **{{ expense.source }}**</p>
+                            <p>Amount: **${{ expense.s_amount }}**</p>
+                        </li>
+                        {% endfor %}
+                        <li><strong>Total Expenses: ${{ total_expenses }}</strong></li>
+                    </ul>
+                </ul>
+            </form>
+            
+            <form action="/clearexpense_buffer" method="post">
+                <button type="submit" class="CLEAR_BUFFER">Clear All Expense Entries</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="card summary-card">
+        <h2>Remaining Balance</h2>
+        <p>Your remaining amount after expenses is: **${{ total_income|int - total_expenses|int }}**</p>
+    </div>
+
+</body>
+</html>

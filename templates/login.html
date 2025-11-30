@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Financial Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- EXACT SAME CSS AS REGISTRATION PAGE --- */
+        /* This ensures consistency across your app */
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #1f2937;
+        }
+
+        .login-card {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 400px; /* Slightly narrower than register for a focused look */
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group { margin-bottom: 1.5rem; }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .error-message {
+            display: block;
+            color: #dc2626;
+            font-size: 0.85rem;
+            margin-top: 0.4rem;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 0.875rem;
+            background-color: #059669;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        input[type="submit"]:hover { background-color: #047857; }
+        
+        .form-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #6b7280;
+        }
+        
+        .form-footer a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <h1>Welcome Back</h1>
+        <p class="subtitle">Login to manage your portfolio</p>
+        
+        <form method="POST" action="{{ url_for('login') }}">
+            {{ form.hidden_tag() }}
+            
+            <div class="form-group">
+                {{ form.email.label }}
+                {{ form.email(size=32, placeholder="name@company.com") }}
+                
+                {% for error in form.email.errors %}
+                    <span class="error-message">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.password.label }}
+                {{ form.password(size=32, placeholder="••••••••") }}
+                
+                {% for error in form.password.errors %}
+                    <span class="error-message">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div>
+                {{ form.submit(value="Sign In") }}
+            </div>
+            
+            <div class="form-footer">
+                Don't have an account? 
+                <a href="{{ url_for('register') }}">Register here</a>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
