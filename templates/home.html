@@ -230,7 +230,7 @@
                     
                     <ul class="data-list">
                         <li><strong>Expense Sources:</strong></li>
-                        {% for expense in expense_sources %}    
+                        {% for expense in expense_sources %}
                         <li>
                             <p>Source: **{{ expense.source }}**</p>
                             <p>Amount: **${{ expense.s_amount }}**</p>
@@ -250,6 +250,26 @@
     <div class="card summary-card">
         <h2>Remaining Balance</h2>
         <p>Your remaining amount after expenses is: **${{ total_income|int - total_expenses|int }}**</p>
+    </div>
+    <br>
+    <hr>
+    <br>
+    <div>
+        <h2>Budget Recommendation</h2>
+        {% if (total_income|int - total_expenses|int) > 0 %}
+            <p>You are within your budget! Keep up the good work!</p>
+        {% else %}
+            <p>You have exceeded your budget. Consider reviewing your expenses.</p>
+        {% endif %}
+    </div>
+    <br>
+    <hr>
+    <br>
+    <div>
+        <h2>Money Allocation</h2>
+        <p>Savings (20%): ${{ ((total_income|int - total_expenses|int) * 0.2) | round(2) }}</p>
+        <br>
+        <p>Fun money (80%): ${{ ((total_income|int - total_expenses|int) * 0.8) | round(2) }}</p>
     </div>
 
 </body>
